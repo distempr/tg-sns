@@ -14,17 +14,18 @@ def escape_markdown(text):
     return re.sub(f"([{re.escape(escape_chars)}])", r"\\\1", text)
 
 
-def lambda_handler(event, context):
-    chat = ssm.get_parameter(
-        Name="/tg-sns/chat",
-        WithDecryption=False
+def get_parameter(name, decrypt=False):
+    return ssm.get_parameter(
+        Name=f"/tg-sns/{name}",
+        WithDecryption=decrypt
     )["Parameter"]["Value"]
+
+
+def lambda_handler(event, context):
+    chat = get_parameter("chat")
     chat = int(chat)
 
-    token = ssm.get_parameter(
-        Name="/tg-sns/token",
-        WithDecryption=True
-    )["Parameter"]["Value"]
+    token = get_parameter("token", decrypt=True)
 
     sns = event["Records"][0]["Sns"]
     topic = sns["TopicArn"].split(":")[-1]
