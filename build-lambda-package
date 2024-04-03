@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-package_path=/var/lib/lambda/tg-sns-lambda.zip
-
-pushd package || exit 1
-zip -r "$package_path" . || exit 1
-popd || exit 1
-
-zip "$package_path" lambda_function.py || exit 1

@@ -1,7 +1,7 @@
 FROM python:3.12-slim
 
 RUN set -ex; \
-      mkdir /usr/lib/lambda /var/lib/lambda
+      mkdir /usr/lib/lambda /var/lib/lambda /var/lib/lambda/host
 
 RUN set -ex; \
       apt-get update; \
@@ -14,9 +14,11 @@ COPY requirements.txt .
 
 RUN set -ex; \
       pip install --no-cache-dir --upgrade pip; \
-      pip install --no-cache-dir --target ./package -r requirements.txt
+      pip install --no-cache-dir --target ./package -r requirements.txt; \
+      cd package; \
+      zip -r /var/lib/lambda/tg-sns-lambda.zip .
 
-COPY build-lambda-package /usr/bin/build
 COPY lambda_function.py .
+RUN zip /var/lib/lambda/tg-sns-lambda.zip lambda_function.py
 
-CMD ["/usr/bin/build"]
+CMD ["cp", "/var/lib/lambda/tg-sns-lambda.zip", "/var/lib/lambda/host/"]
