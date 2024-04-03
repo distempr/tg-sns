@@ -28,13 +28,15 @@ def lambda_handler(event, context):
         WithDecryption=True
     )["Parameter"]["Value"]
 
-    subject = event["Records"][0]["Sns"]["Subject"]
+    sns = event["Records"][0]["Sns"]
+    topic = sns["TopicArn"].split(":")[-1]
+    subject = sns["Subject"]
 
     requests.post(
         f"https://api.telegram.org/bot{token}/sendMessage",
         data={
             "chat_id": chat,
             "parse_mode": "MarkdownV2",
-            "text": f"*distempr SNS:* {escape_markdown(subject)}"
+            "text": f"*{escape_markdown(topic)} SNS:* {escape_markdown(subject)}"
         }
     )
