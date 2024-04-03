@@ -15,8 +15,6 @@ def escape_markdown(text):
 
 
 def lambda_handler(event, context):
-#    print(event)
-
     chat = ssm.get_parameter(
         Name="/tg-sns/chat",
         WithDecryption=False
