@@ -10,9 +10,11 @@ RUN set -ex; \
 
 WORKDIR /usr/lib/lambda
 
+COPY requirements.txt .
+
 RUN set -ex; \
       pip install --no-cache-dir --upgrade pip; \
-      pip install --no-cache-dir --target ./package requests
+      pip install --no-cache-dir --target ./package -r requirements.txt
 
 COPY build-lambda-package /usr/bin/build
 COPY lambda_function.py .
