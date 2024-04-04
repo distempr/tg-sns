@@ -23,8 +23,6 @@ def get_parameter(name, decrypt=False):
 
 def lambda_handler(event, context):
     chat = get_parameter("chat")
-    chat = int(chat)
-
     token = get_parameter("token", decrypt=True)
 
     for record in event["Records"]:
