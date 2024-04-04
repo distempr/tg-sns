@@ -27,15 +27,21 @@ def lambda_handler(event, context):
 
     token = get_parameter("token", decrypt=True)
 
-    sns = event["Records"][0]["Sns"]
-    topic = sns["TopicArn"].split(":")[-1]
-    subject = sns["Subject"]
+    for record in event["Records"]:
+        if "Sns" not in record:
+            continue
 
-    requests.post(
-        f"https://api.telegram.org/bot{token}/sendMessage",
-        data={
-            "chat_id": chat,
-            "parse_mode": "MarkdownV2",
-            "text": f"*{escape_markdown(topic)} SNS:* {escape_markdown(subject)}"
-        }
-    )
+        if record["Sns"]["Type"] != "Notification":
+            continue
+
+        topic = record["Sns"]["TopicArn"].split(":")[-1]
+        subject = record["Sns"]["Subject"]
+
+        requests.post(
+            f"https://api.telegram.org/bot{token}/sendMessage",
+            data={
+                "chat_id": chat,
+                "parse_mode": "MarkdownV2",
+                "text": f"*{escape_markdown(topic)} SNS:* {escape_markdown(subject)}"
+            }
+        )
