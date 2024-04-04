@@ -6,7 +6,7 @@ zip_file=tg-sns-lambda.zip
 s3_bucket=distempr-lambda
 s3_key=tg-sns/tg-sns-lambda.zip
 
-docker build -t "$tag" .
-docker run -v ./build:/var/lib/lambda/host "$tag"
-aws s3 cp "build/$zip_file" "s3://$s3_bucket/$s3_key"
+docker build -t "$tag" . || exit 1
+docker run -v ./build:/var/lib/lambda/host "$tag" || exit 1
+aws s3 cp "build/$zip_file" "s3://$s3_bucket/$s3_key" || exit 1
 aws lambda update-function-code --function-name "$function_name" --s3-bucket "$s3_bucket" --s3-key "$s3_key"
