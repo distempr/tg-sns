@@ -6,6 +6,16 @@ zip_file=tg-sns-lambda.zip
 s3_bucket=distempr-lambda
 s3_key=tg-sns/tg-sns-lambda.zip
 
+if ! command -v docker >/dev/null; then
+  printf >&2 "Docker not installed\n"
+  exit 1
+fi
+
+if ! command -v aws >/dev/null; then
+  printf >&2 "AWS CLI not installed or not on PATH\n"
+  exit 1
+fi
+
 if ! [ -f Dockerfile ]; then
   printf >&2 "You don't appear to be in the correct directory\n"
   exit 1
