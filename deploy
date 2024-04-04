@@ -6,6 +6,15 @@ zip_file=tg-sns-lambda.zip
 s3_bucket=distempr-lambda
 s3_key=tg-sns/tg-sns-lambda.zip
 
+if ! [ -f Dockerfile ]; then
+  printf >&2 "You don't appear to be in the correct directory\n"
+  exit 1
+fi
+
+if ! [ -d build ]; then
+  mkdir build 
+fi
+
 docker build -t "$tag" . || exit 1
 docker run -v ./build:/var/lib/lambda/host "$tag" || exit 1
 aws s3 cp "build/$zip_file" "s3://$s3_bucket/$s3_key" || exit 1
