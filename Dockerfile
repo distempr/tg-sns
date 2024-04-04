@@ -1,12 +1,12 @@
 FROM python:3.12-slim
 
 RUN set -ex; \
-      mkdir /usr/lib/lambda /var/lib/lambda /var/lib/lambda/host
-
-RUN set -ex; \
       apt-get update; \
       apt-get install -y zip; \
       rm -rf /var/lib/apt/lists/* 
+
+RUN set -ex; \
+      mkdir /usr/lib/lambda /var/lib/lambda /var/lib/lambda/host
 
 WORKDIR /usr/lib/lambda
 
