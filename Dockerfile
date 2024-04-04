@@ -13,7 +13,6 @@ WORKDIR /usr/lib/lambda
 COPY requirements.txt .
 
 RUN set -ex; \
-      pip install --no-cache-dir --upgrade pip; \
       pip install --no-cache-dir --target ./package -r requirements.txt; \
       cd package; \
       zip -r /var/lib/lambda/tg-sns-lambda.zip .
