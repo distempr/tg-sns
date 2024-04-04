@@ -5,8 +5,9 @@ RUN set -ex; \
       apt-get install -y zip; \
       rm -rf /var/lib/apt/lists/* 
 
-RUN set -ex; \
-      mkdir /usr/lib/lambda /var/lib/lambda /var/lib/lambda/host
+RUN mkdir /usr/lib/lambda \
+      /var/lib/lambda \
+      /var/lib/lambda/host
 
 WORKDIR /usr/lib/lambda
 
