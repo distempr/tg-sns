@@ -21,10 +21,6 @@ if ! [ -f Dockerfile ]; then
   exit 1
 fi
 
-if ! [ -d build ]; then
-  mkdir build 
-fi
-
 docker build -t "$tag" . || exit 1
 docker run -v ./build:/mnt "$tag" || exit 1
 aws s3 cp "build/$zip_file" "s3://$s3_bucket/$s3_key" || exit 1
