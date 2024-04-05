@@ -11,6 +11,6 @@ Holds the code for a Lambda that sends SNS notifications through to a Telegram b
 - Create S3 bucket in which the function zip file will be published.
 - Create SSM parameters:
   - `/tg-sns/chat` (String): chat ID that notifcations will be sent to.
-  - `/tg-sns/token` (SecretString): bot token.
+  - `/tg-sns/token` (SecureString): bot token.
 - Edit variables in `deploy` if necessary.
 - `./deploy`
