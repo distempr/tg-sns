@@ -4,6 +4,10 @@ import boto3
 import requests
 
 
+SSM_PARAM_NS = "tg-sns"
+TG_BASE_URL = "https://api.telegram.org"
+
+
 ssm = boto3.client("ssm")
 
 
@@ -16,7 +20,7 @@ def escape_markdown(text):
 
 def get_parameter(name, decrypt=False):
     return ssm.get_parameter(
-        Name=f"/tg-sns/{name}",
+        Name=f"/{SSM_PARAM_NS}/{name}",
         WithDecryption=decrypt
     )["Parameter"]["Value"]
 
@@ -36,7 +40,7 @@ def lambda_handler(event, context):
         subject = record["Sns"]["Subject"]
 
         requests.post(
-            f"https://api.telegram.org/bot{token}/sendMessage",
+            f"{TG_BASE_URL}/bot{token}/sendMessage",
             data={
                 "chat_id": chat,
                 "parse_mode": "MarkdownV2",
