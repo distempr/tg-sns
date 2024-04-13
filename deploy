@@ -2,9 +2,9 @@
 
 tag=tg-sns
 function_name=tg-sns
-zip_file=tg-sns-lambda.zip
+zip_file=tg-sns.zip
 s3_bucket=distempr-lambda
-s3_key=tg-sns/tg-sns-lambda.zip
+s3_key=tg-sns/tg-sns.zip
 
 if ! command -v docker >/dev/null; then
   printf >&2 "Docker not installed\n"
