@@ -14,9 +14,9 @@ COPY requirements.txt .
 RUN set -ex; \
       pip install --no-cache-dir --target ./package -r requirements.txt; \
       cd package; \
-      zip -r /usr/lib/lambda/tg-sns.zip .
+      zip -9 -r /usr/lib/lambda/tg-sns.zip .
 
 COPY lambda_function.py .
-RUN zip /usr/lib/lambda/tg-sns.zip lambda_function.py
+RUN zip -9 /usr/lib/lambda/tg-sns.zip lambda_function.py
 
 CMD ["cp", "/usr/lib/lambda/tg-sns.zip", "/mnt/"]
